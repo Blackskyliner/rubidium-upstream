@@ -161,6 +161,8 @@ public class SodiumOptionsGUI extends Screen {
 
     @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        super.renderBackground(drawContext);
+
         this.updateControls();
 
         super.render(drawContext, mouseX, mouseY, delta);
