@@ -18,13 +18,16 @@ import me.jellysquid.mods.sodium.client.util.DirectionUtil;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.LocalRandom;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockRenderView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,12 +57,12 @@ public class BlockRenderer {
     }
 
     public void renderModel(BlockRenderContext ctx, ChunkBuildBuffers buffers) {
-        var material = DefaultMaterials.forBlockState(ctx.state());
+        var material = DefaultMaterials.forRenderLayer(ctx.renderLayer());
         var meshBuilder = buffers.get(material);
 
         ColorProvider<BlockState> colorizer = this.colorProviderRegistry.getColorProvider(ctx.state().getBlock());
 
-        LightPipeline lighter = this.lighters.getLighter(this.getLightingMode(ctx.state(), ctx.model()));
+        LightPipeline lighter = this.lighters.getLighter(this.getLightingMode(ctx.state(), ctx.model(), ctx.world(), ctx.pos(), ctx.renderLayer()));
         Vec3d renderOffset;
         
         if (ctx.state().hasModelOffset()) {
@@ -87,7 +90,7 @@ public class BlockRenderer {
         var random = this.random;
         random.setSeed(ctx.seed());
 
-        return ctx.model().getQuads(ctx.state(), face, random);
+        return ctx.model().getQuads(ctx.state(), face, random, ctx.modelData(), ctx.renderLayer());
     }
 
     private boolean isFaceVisible(BlockRenderContext ctx, Direction face) {
@@ -155,7 +158,7 @@ public class BlockRenderer {
             out.y = ctx.origin().y() + quad.getY(srcIndex) + (float) offset.getY();
             out.z = ctx.origin().z() + quad.getZ(srcIndex) + (float) offset.getZ();
 
-            out.color = ColorABGR.withAlpha(colors != null ? colors[srcIndex] : 0xFFFFFFFF, light.br[srcIndex]);
+            out.color = ColorABGR.withAlpha(colors != null ? colors[srcIndex] : quad.getColor(srcIndex), light.br[srcIndex]);
 
             out.u = quad.getTexU(srcIndex);
             out.v = quad.getTexV(srcIndex);
@@ -167,8 +170,8 @@ public class BlockRenderer {
         vertexBuffer.push(vertices, material);
     }
 
-    private LightMode getLightingMode(BlockState state, BakedModel model) {
-        if (this.useAmbientOcclusion && model.useAmbientOcclusion() && state.getLuminance() == 0) {
+    private LightMode getLightingMode(BlockState state, BakedModel model, BlockRenderView world, BlockPos pos, RenderLayer layer) {
+        if (this.useAmbientOcclusion && model.useAmbientOcclusion(state, layer) && state.getLightEmission(world, pos) == 0) {
             return LightMode.SMOOTH;
         } else {
             return LightMode.FLAT;

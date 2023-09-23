@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.util.workarounds;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import me.jellysquid.mods.sodium.client.util.workarounds.probe.GraphicsAdapterProbe;
 import me.jellysquid.mods.sodium.client.util.workarounds.probe.GraphicsAdapterVendor;
 import net.minecraft.util.Util;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class Workarounds {
-    private static final Logger LOGGER = LoggerFactory.getLogger("Sodium-Workarounds");
+    private static final Logger LOGGER = LoggerFactory.getLogger( SodiumClientMod.MODNAME + "-Workarounds");
 
     private static final AtomicReference<Set<Reference>> ACTIVE_WORKAROUNDS = new AtomicReference<>(EnumSet.noneOf(Reference.class));
 
@@ -22,7 +23,7 @@ public class Workarounds {
         var workarounds = findNecessaryWorkarounds();
 
         if (!workarounds.isEmpty()) {
-            LOGGER.warn("Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [{}]",
+            LOGGER.warn(SodiumClientMod.MODNAME + " has applied one or more workarounds to prevent crashes or other issues on your system: [{}]",
                     workarounds.stream()
                             .map(Enum::name)
                             .collect(Collectors.joining(", ")));

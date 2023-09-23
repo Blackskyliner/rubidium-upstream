@@ -24,9 +24,14 @@ group = project.maven_group
 loom {
     mixin.defaultRefmapName = "mixins.sodium.refmap.json"
     accessWidenerPath = file("src/main/resources/sodium.accesswidener")
+    mixin.defaultRefmapName = "mixins.rubidium.refmap.json"
 	
 	forge {
         convertAccessWideners = true
+        mixinConfigs = [
+                "rubidium.mixins.json",
+                "rubidium.compat.mixins.json"
+        ]
 	}
 }
 
@@ -74,10 +79,18 @@ jar {
     from sourceSets.api.output.resourcesDir
 }
 
+repositories {
+    maven {
+        url "https://maven.su5ed.dev/releases"
+    }
+}
+
 dependencies {
     //to change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+    modImplementation "dev.su5ed.sinytra.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 def getVersionMetadata() {

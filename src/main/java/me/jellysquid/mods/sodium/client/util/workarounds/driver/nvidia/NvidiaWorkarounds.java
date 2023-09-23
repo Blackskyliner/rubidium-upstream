@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.util.workarounds.driver.nvidia;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import me.jellysquid.mods.sodium.client.util.workarounds.platform.linux.LibC;
 import me.jellysquid.mods.sodium.client.util.workarounds.platform.windows.Kernel32;
 import me.jellysquid.mods.sodium.client.util.workarounds.platform.windows.WindowsProcessHacks;
@@ -8,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NvidiaWorkarounds {
-    private static final Logger LOGGER = LoggerFactory.getLogger("Sodium-NvidiaWorkarounds");
+    private static final Logger LOGGER = LoggerFactory.getLogger(SodiumClientMod.MODNAME + "-NvidiaWorkarounds");
 
     public static void install() {
         LOGGER.warn("Attempting to apply workarounds for the NVIDIA Graphics Driver...");

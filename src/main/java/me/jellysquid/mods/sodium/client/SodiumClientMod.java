@@ -2,32 +2,36 @@ package me.jellysquid.mods.sodium.client;
 
 import me.jellysquid.mods.sodium.client.gui.SodiumGameOptions;
 import me.jellysquid.mods.sodium.client.util.FlawlessFrames;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
+import net.minecraftforge.fml.IExtensionPoint;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.network.NetworkConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class SodiumClientMod implements ClientModInitializer {
-    private static SodiumGameOptions CONFIG;
-    private static Logger LOGGER;
+@Mod(SodiumClientMod.MODID)
+public class SodiumClientMod {
+
+    public static final String MODID = "rubidium";
+    public static final String MODNAME = "Rubidium";
+
+    private static SodiumGameOptions CONFIG = loadConfig();
+    private static final Logger LOGGER = LoggerFactory.getLogger(MODNAME);
 
     private static String MOD_VERSION;
 
-    @Override
-    public void onInitializeClient() {
-        ModContainer mod = FabricLoader.getInstance()
-                .getModContainer("sodium")
-                .orElseThrow(NullPointerException::new);
+    // For compatibility with ForgifiedFabricAPI. Since loader has no modid, we are depending on base api
+    public static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric-api-base") != null;
 
-        MOD_VERSION = mod.getMetadata()
-                .getVersion()
-                .getFriendlyString();
+    public SodiumClientMod() {
+        SodiumPreLaunch.onPreLaunch();
 
-        LOGGER = LoggerFactory.getLogger("Sodium");
-        CONFIG = loadConfig();
+        MOD_VERSION = ModList.get().getModContainerById(MODID).get().getModInfo().getVersion().toString();
+        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
         FlawlessFrames.onClientInitialization();
     }
@@ -41,10 +45,6 @@ public class SodiumClientMod implements ClientModInitializer {
     }
 
     public static Logger logger() {
-        if (LOGGER == null) {
-            throw new IllegalStateException("Logger not yet available");
-        }
-
         return LOGGER;
     }
 

@@ -3,8 +3,10 @@ package me.jellysquid.mods.sodium.client.world.cloned;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceMaps;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import me.jellysquid.mods.sodium.client.world.ReadableContainerExtended;
 import me.jellysquid.mods.sodium.client.world.WorldSlice;
+import net.fabricmc.fabric.api.blockview.v2.RenderDataBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -136,12 +138,16 @@ public class ClonedChunkSection {
     private static Int2ReferenceMap<Object> copyBlockEntityRenderData(Int2ReferenceMap<BlockEntity> blockEntities) {
         Int2ReferenceOpenHashMap<Object> blockEntityRenderDataMap = null;
 
+        if(!SodiumClientMod.fabricApiLoaded)
+            return blockEntityRenderDataMap;
+
         // Retrieve any render data after we have copied all block entities, as this will call into the code of
         // other mods. This could potentially result in the chunk being modified, which would cause problems if we
         // were iterating over any data in that chunk.
         // See https://github.com/CaffeineMC/sodium-fabric/issues/942 for more info.
         for (var entry : Int2ReferenceMaps.fastIterable(blockEntities)) {
-            Object data = entry.getValue().getRenderData();
+            var value = ((RenderDataBlockEntity) entry.getValue());
+            Object data = value.getRenderData();
 
             if (data != null) {
                 if (blockEntityRenderDataMap == null) {

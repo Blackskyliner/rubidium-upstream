@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.util;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.Collections;
@@ -22,6 +23,8 @@ public class FlawlessFrames {
 
     @SuppressWarnings("unchecked")
     public static void onClientInitialization() {
+        if(!SodiumClientMod.fabricApiLoaded) return;
+
         Function<String, Consumer<Boolean>> provider = name -> {
             Object token = new Object();
             return active -> {

@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.util.workarounds.probe;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import net.minecraft.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class GraphicsAdapterProbe {
-    private static final Logger LOGGER = LoggerFactory.getLogger("Sodium-GraphicsAdapterProbe");
+    private static final Logger LOGGER = LoggerFactory.getLogger(SodiumClientMod.MODNAME + "-GraphicsAdapterProbe");
 
     private static List<GraphicsAdapterInfo> ADAPTERS;
 

@@ -1,5 +1,6 @@
 package me.jellysquid.mods.sodium.client.util.workarounds;
 
+import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import me.jellysquid.mods.sodium.client.gui.console.Console;
 import me.jellysquid.mods.sodium.client.gui.console.message.MessageLevel;
 import me.jellysquid.mods.sodium.client.util.workarounds.driver.nvidia.NvidiaGLContextInfo;
@@ -12,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PostLaunchChecks {
-    private static final Logger LOGGER = LoggerFactory.getLogger("Sodium-PostlaunchChecks");
+    private static final Logger LOGGER = LoggerFactory.getLogger(SodiumClientMod.MODNAME + "-PostlaunchChecks");
 
     public static void checkContext() {
         checkContextImplementation();
@@ -20,7 +21,7 @@ public class PostLaunchChecks {
         if (isUsingPojavLauncher()) {
             showConsoleMessage(Text.translatable("sodium.console.pojav_launcher"));
             logMessage("It appears that PojavLauncher is being used with an OpenGL compatibility layer. This will " +
-                    "likely cause severe performance issues, graphical issues, and crashes when used with Sodium. This " +
+                    "likely cause severe performance issues, graphical issues, and crashes when used with " + SodiumClientMod.MODNAME + ". This " +
                     "configuration is not supported -- you are on your own!");
         }
     }
@@ -40,7 +41,7 @@ public class PostLaunchChecks {
         if (isBrokenNvidiaDriverInstalled(driver)) {
             showConsoleMessage(Text.translatable("sodium.console.broken_nvidia_driver"));
             logMessage("The NVIDIA graphics driver appears to be out of date. This will likely cause severe " +
-                    "performance issues and crashes when used with Sodium. The graphics driver should be updated to " +
+                    "performance issues and crashes when used with "+ SodiumClientMod.MODNAME + ". The graphics driver should be updated to " +
                     "the latest version (version 536.23 or newer).");
         }
     }

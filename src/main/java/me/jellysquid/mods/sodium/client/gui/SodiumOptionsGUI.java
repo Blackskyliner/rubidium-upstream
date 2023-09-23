@@ -45,7 +45,7 @@ public class SodiumOptionsGUI extends Screen {
     private ControlElement<?> hoveredElement;
 
     public SodiumOptionsGUI(Screen prevScreen) {
-        super(Text.translatable("Sodium Options"));
+        super(Text.translatable(SodiumClientMod.MODNAME + " Options"));
 
         this.prevScreen = prevScreen;
 

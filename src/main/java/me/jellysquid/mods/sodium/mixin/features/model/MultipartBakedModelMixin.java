@@ -2,11 +2,14 @@ package me.jellysquid.mods.sodium.mixin.features.model;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.MultipartBakedModel;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.util.ConcatenatedListView;
 import org.apache.commons.lang3.tuple.Pair;
 import org.spongepowered.asm.mixin.*;
 
@@ -30,7 +33,7 @@ public class MultipartBakedModelMixin {
      * @reason Avoid expensive allocations and replace bitfield indirection
      */
     @Overwrite
-    public List<BakedQuad> getQuads(BlockState state, Direction face, Random random) {
+    public List<BakedQuad> getQuads(BlockState state, Direction face, Random random, ModelData modelData, RenderLayer renderLayer) {
         if (state == null) {
             return Collections.emptyList();
         }
@@ -62,14 +65,16 @@ public class MultipartBakedModelMixin {
             }
         }
 
-        List<BakedQuad> quads = new ArrayList<>();
+        List<List<BakedQuad>> quads = new ArrayList<>();
         long seed = random.nextLong();
 
         for (BakedModel model : models) {
             random.setSeed(seed);
-            quads.addAll(model.getQuads(state, face, random));
+
+            if (renderLayer == null || model.getRenderTypes(state, random, modelData).contains(renderLayer)) // FORGE: Only put quad data if the model is using the render type passed
+                quads.add(model.getQuads(state, face, random, modelData, renderLayer));
         }
 
-        return quads;
+        return ConcatenatedListView.of(quads);
     }
 }
