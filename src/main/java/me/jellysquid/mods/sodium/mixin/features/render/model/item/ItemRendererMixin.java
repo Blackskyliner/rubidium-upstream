@@ -6,6 +6,7 @@ import me.jellysquid.mods.sodium.client.render.texture.SpriteUtil;
 import me.jellysquid.mods.sodium.client.render.vertex.VertexConsumerUtils;
 import me.jellysquid.mods.sodium.client.model.color.interop.ItemColorsExtended;
 import me.jellysquid.mods.sodium.client.util.DirectionUtil;
+import me.jellysquid.mods.sodium.client.util.ModelQuadUtil;
 import net.caffeinemc.mods.sodium.api.util.ColorARGB;
 import net.caffeinemc.mods.sodium.api.vertex.buffer.VertexBufferWriter;
 import net.minecraft.client.color.item.ItemColorProvider;
@@ -93,6 +94,7 @@ public class ItemRendererMixin {
                 color = ColorARGB.toABGR((colorProvider.getColor(itemStack, quad.getColorIndex())), 255);
             }
 
+            light = ModelQuadUtil.applyBakedLighting(quad.getLight(i), light);
             BakedModelEncoder.writeQuadVertices(writer, matrices, quad, color, light, overlay);
 
             SpriteUtil.markSpriteActive(quad.getSprite());
