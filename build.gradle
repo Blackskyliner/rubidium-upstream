@@ -12,6 +12,8 @@ plugins {
     // This dependency is only used to determine the state of the Git working tree so that build artifacts can be
     // more easily identified. TODO: Lazily load GrGit via a service only when builds are performed.
     id 'org.ajoberstar.grgit' version '5.0.0'
+
+    id 'maven-publish'
 }
 
 apply from: "${rootProject.projectDir}/gradle/forge.gradle"
@@ -100,6 +102,18 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
     modImplementation "dev.su5ed.sinytra.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
 }
 
 def getVersionMetadata() {
