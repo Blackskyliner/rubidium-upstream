@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class SodiumCompatMixinPlugin implements IMixinConfigPlugin {
 
-    private static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric-api-base") != null;
+    private static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric_api_base") != null;
 
     @Override
     public void onLoad(String mixinPackage) {

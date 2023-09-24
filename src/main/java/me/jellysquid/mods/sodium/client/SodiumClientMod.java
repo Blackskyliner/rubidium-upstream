@@ -25,7 +25,7 @@ public class SodiumClientMod {
     private static String MOD_VERSION;
 
     // For compatibility with ForgifiedFabricAPI. Since loader has no modid, we are depending on base api
-    public static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric-api-base") != null;
+    public static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric_api_base") != null;
 
     public SodiumClientMod() {
         SodiumPreLaunch.onPreLaunch();
