@@ -15,7 +15,6 @@ import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.DefaultMat
 import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.Material;
 import me.jellysquid.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
 import me.jellysquid.mods.sodium.client.util.DirectionUtil;
-import me.jellysquid.mods.sodium.client.util.ModelQuadUtil;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -164,7 +163,7 @@ public class BlockRenderer {
             out.u = quad.getTexU(srcIndex);
             out.v = quad.getTexV(srcIndex);
 
-            out.light = ModelQuadUtil.applyBakedLighting(quad.getLight(srcIndex), light.lm[srcIndex]);
+            out.light = light.lm[srcIndex];
         }
 
         var vertexBuffer = builder.getVertexBuffer(normalFace);
