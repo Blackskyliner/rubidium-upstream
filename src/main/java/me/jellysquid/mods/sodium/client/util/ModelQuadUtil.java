@@ -108,4 +108,23 @@ public class ModelQuadUtil {
 
         return NormI8.pack(normX, normY, normZ);
     }
+
+    /*
+     * This code is derived from the MinecraftForge project,
+     * licensed under the GNU Lesser General Public License, version 2.1.
+     * See https://github.com/MinecraftForge/MinecraftForge/blob/1.16.x/LICENSE.txt for more information.
+     *
+     * This code is also distributed under the terms of the GNU Lesser General Public License, version 3
+     * See https://github.com/Asek3/Rubidium/blob/1.16/dev/LICENSE for a copy of the LGPL-3 license.
+     */
+    public static int applyBakedLighting(int packedLight, int quadLight)
+    {
+        int bl = packedLight & 0xFFFF;
+        int sl = (packedLight >> 16) & 0xFFFF;
+        int blBaked = quadLight & 0xFFFF;
+        int slBaked = (quadLight >> 16) & 0xFF;
+        bl = Math.max(bl, blBaked);
+        sl = Math.max(sl, slBaked);
+        return bl | (sl << 16);
+    }
 }

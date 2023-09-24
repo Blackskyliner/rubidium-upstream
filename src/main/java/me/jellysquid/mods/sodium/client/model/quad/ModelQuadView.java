@@ -43,6 +43,11 @@ public interface ModelQuadView {
     int getFlags();
 
     /**
+     * @return The lightmap texture coordinates for the vertex at index {@param idx}
+     */
+    int getLight(int idx);
+
+    /**
      * @return The color index of this quad.
      */
     int getColorIndex();
