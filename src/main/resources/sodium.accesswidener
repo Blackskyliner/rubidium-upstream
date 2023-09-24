@@ -14,3 +14,5 @@ accessible class net/minecraft/client/texture/TextureStitcher$Holder
 accessible class net/minecraft/world/biome/Biome$Weather
 
 accessible method net/minecraft/client/util/math/MatrixStack$Entry <init> (Lorg/joml/Matrix4f;Lorg/joml/Matrix3f;)V
+
+accessible field net/minecraft/client/render/VertexFormat offsets Lit/unimi/dsi/fastutil/ints/IntList;

@@ -55,6 +55,13 @@ sourceSets {
             runtimeClasspath += api.output
         }
     }
+
+    legacy {
+        java {
+            compileClasspath += main.compileClasspath
+            compileClasspath += main.output
+        }
+    }
 }
 
 tasks.register('apiJar', Jar) {
@@ -77,6 +84,8 @@ build.dependsOn remapApiJar
 jar {
     from sourceSets.api.output.classesDirs
     from sourceSets.api.output.resourcesDir
+    from sourceSets.legacy.output.classesDirs
+    from sourceSets.legacy.output.resourcesDir
 }
 
 repositories {
