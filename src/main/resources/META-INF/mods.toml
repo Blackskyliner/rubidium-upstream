@@ -14,7 +14,7 @@ authors="CaffeineMC"
 
 [[mods]]
 modId = "sodium"
-version = "0.5.3"
+version = "0.5.2"
 displayName = "Sodium"
 description = '''
 Done for compatibility with Fabric's addon for Sodium
