@@ -129,9 +129,11 @@ public class MixinConfig {
         }
     }
 
+    private static final boolean fabricApiLoaded = LoadingModList.get().getModFileById("fabric_api_base") != null;
+
     private void applyModOverrides() {
         forge$applyModOverrides();
-        if(SodiumClientMod.fabricApiLoaded)
+        if(fabricApiLoaded)
             fabric$applyModOverrides();
     }
 
