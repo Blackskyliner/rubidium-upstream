@@ -11,3 +11,11 @@ Rubidium is a Unofficial Fork of the Sodium maked to work on FML.
 '''
 credits="NanoLive, Asek3"
 authors="CaffeineMC"
+
+[[mods]]
+modId = "sodium"
+version = "0.5.3"
+displayName = "Sodium"
+description = '''
+Done for compatibility with Fabric's addon for Sodium
+'''
