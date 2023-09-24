@@ -20,11 +20,10 @@ apply from: "${rootProject.projectDir}/gradle/forge.gradle"
 apply from: "${rootProject.projectDir}/gradle/java.gradle"
 
 archivesBaseName = "${project.archives_base_name}-mc${project.minecraft_version}"
-version = "${project.mod_version}${getVersionMetadata()}"
+version = "${project.mod_version}"
 group = project.maven_group
 
 loom {
-    mixin.defaultRefmapName = "mixins.sodium.refmap.json"
     accessWidenerPath = file("src/main/resources/sodium.accesswidener")
     mixin.defaultRefmapName = "mixins.rubidium.refmap.json"
 	
@@ -114,26 +113,4 @@ publishing {
     repositories {
         mavenLocal()
     }
-}
-
-def getVersionMetadata() {
-    // CI builds only
-    if (project.hasProperty("build.release")) {
-        return "" // no tag whatsoever
-    }
-
-    if (grgit != null) {
-        def head = grgit.head()
-        def id = head.abbreviatedId
-
-        // Flag the build if the build tree is not clean
-        if (!grgit.status().clean) {
-            id += "-dirty"
-        }
-
-        return "+git.${id}"
-    }
-
-    // No tracking information could be found about the build
-    return "+unknown"
 }
