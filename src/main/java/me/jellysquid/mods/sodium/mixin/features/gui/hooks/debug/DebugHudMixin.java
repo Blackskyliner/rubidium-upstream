@@ -21,7 +21,7 @@ public abstract class DebugHudMixin {
     private ArrayList<String> redirectRightTextEarly(Object[] elements) {
         ArrayList<String> strings = Lists.newArrayList((String[]) elements);
         strings.add("");
-        strings.add("%s" + SodiumClientMod.MODNAME + " Renderer (%s)".formatted(getVersionColor(), SodiumClientMod.getVersion()));
+        strings.add("%sRubidium Renderer (%s)".formatted(getVersionColor(), SodiumClientMod.getVersion()));
 
         var renderer = SodiumWorldRenderer.instanceNullable();
 
